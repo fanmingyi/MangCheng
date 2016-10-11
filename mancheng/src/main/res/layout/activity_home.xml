@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="fmy.qf.com.mancheng.activity.SaplashActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/darker_gray"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="首页"
+            android:textColor="#fff"
+            android:textSize="30sp" />
+
+        <FrameLayout
+            android:id="@+id/fl_contain"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <View
+            android:background="#6000"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <RadioGroup
+            android:id="@+id/rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_home"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:checked="true"
+                android:drawableTop="@drawable/home_selector"
+                android:gravity="center"
+                android:text="首页" />
+
+            <RadioButton
+                android:id="@+id/rb_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/search_selector"
+                android:gravity="center"
+                android:text="搜索" />
+
+            <RadioButton
+                android:id="@+id/rb_news"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/news_selector"
+                android:gravity="center"
+                android:text="咨询" />
+
+            <RadioButton
+                android:id="@+id/rb_manager"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/manager_selector"
+                android:gravity="center"
+                android:text="管理" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <fmy.qf.com.mancheng.customview.MygifView
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/gv_anzai"
+        android:layout_width="100dp"
+        android:src="@mipmap/anzai"
+        android:layout_height="100dp" />
+
+
+</RelativeLayout>
