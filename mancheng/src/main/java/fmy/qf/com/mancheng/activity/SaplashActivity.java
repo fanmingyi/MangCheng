@@ -18,7 +18,7 @@ import fmy.qf.com.mancheng.animation.SwitchAnimationUtil;
 public class SaplashActivity extends AppCompatActivity {
 
     private ImageView iv;
-asd
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
