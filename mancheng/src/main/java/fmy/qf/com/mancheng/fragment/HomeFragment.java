@@ -23,7 +23,6 @@ public class HomeFragment extends Fragment {
 
     private View rootView;
     private PagerTabStrip ptsTitle;
-
     private ViewPager vpContain;
     private ArrayList<Fragment> allFragment = new ArrayList<Fragment>();
     private HomeBoutiqueFragment boutiqueFragment;
@@ -47,8 +46,7 @@ public class HomeFragment extends Fragment {
         rankingFragment = new HomeRankingFragment();
         allFragment.add(boutiqueFragment);
 
-     /*   TestFragment t = new TestFragment();
-     allFragment.add(t);*/
+
         allFragment.add(rankingFragment);
     }
 
@@ -95,12 +93,12 @@ public class HomeFragment extends Fragment {
     /**
      * 切换fragment
      */
-    private void fragmentChange(int curretState){
-        if (curretState==JPFRAGMENT){
+    private void fragmentChange(int curretState) {
+        if (curretState == JPFRAGMENT) {
             vpContain.setCurrentItem(JPFRAGMENT);
 
             currentFragment = JPFRAGMENT;
-        }else {
+        } else {
             vpContain.setCurrentItem(PHFRAGMENT);
             currentFragment = PHFRAGMENT;
         }
