@@ -1,13 +1,54 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fmy.qf.com.mancheng.fragment.NewsFragment">
+    android:orientation="vertical"
+    tools:context="fmy.qf.com.mancheng.fragment.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/tv_zx"
+            style="@style/pageTitleStyle"
+            android:text="头条" />
+
+        <TextView
+            android:id="@+id/tv_dm"
+            style="@style/pageTitleStyle"
+            android:text="动漫" />
+
+        <TextView
+            android:id="@+id/tv_tp"
+            style="@style/pageTitleStyle"
+            android:text="图片" />
+
+        <TextView
+            android:id="@+id/tv_dz"
+            style="@style/pageTitleStyle"
+            android:text="段子" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#aaaaaa"
+        android:weightSum="4">
+        <View
+            android:id="@+id/v_underLine"
+            android:layout_width="0dp"
+            android:layout_height="6dp"
+            android:layout_weight="1"
+            android:background="#0f0" />
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_contain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

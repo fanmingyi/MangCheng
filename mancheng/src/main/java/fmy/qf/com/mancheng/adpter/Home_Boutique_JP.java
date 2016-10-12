@@ -69,7 +69,7 @@ public class Home_Boutique_JP extends BaseAdapter {
         }
 
         String icon = baseBean.getIcon();
-        hold.ivShow.setTag(icon);
+   
         Picasso.with(context).load(icon).into(hold.ivShow);
         hold.tv_js.setText(baseBean.getName());
         return convertView;

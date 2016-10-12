@@ -14,14 +14,9 @@
 
         <TextView
             android:id="@+id/tv_jp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="5dp"
+            style="@style/pageTitleStyle"
             android:text="精品"
-            android:textColor="#0f0"
-            android:textSize="15sp" />
+           />
 
         <View
             android:layout_width="1dp"
@@ -31,13 +26,9 @@
 
         <TextView
             android:id="@+id/tv_ph"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="5dp"
+            style="@style/pageTitleStyle"
             android:text="排行"
-            android:textSize="15sp" />
+             />
     </LinearLayout>
 
     <LinearLayout
