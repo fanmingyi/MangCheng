@@ -10,7 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fmy.qf.com.mancheng.R;
+import fmy.qf.com.mancheng.adpter.News_TT;
 import fmy.qf.com.mancheng.bean.News_TT_Bean;
 import fmy.qf.com.mancheng.customview.NewsRefreshListView;
 import fmy.qf.com.mancheng.parse.Parse;
@@ -42,16 +43,28 @@ public class News_zx_Fragment extends Fragment {
     private final int PARSE_JSON_ERROR = NET_NOT_ISCONN + 1;
     //下载错误
     private final int DOWN_ERROR = PARSE_JSON_ERROR + 1;
+    //分页下载
+    private final int DOWN_COMPLEDTE_REFRESH = DOWN_ERROR + 1;
+
+
     //listview
     private NewsRefreshListView myListView;
     //头部轮播数
     int carouselNum = 4;
-
+    //ListView的适配器
+    private News_TT myAdapter;
+    //网页分页数
+    int index = 1;
+    //上下文
     Activity myActivity;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
+                //下载完成
+                case DOWN_COMPLEDTE_REFRESH:
+                    myListView.completeRefresh();
+                    Toast.makeText(myActivity, "刷新成功", Toast.LENGTH_SHORT).show();
                 //下载完成
                 case DOWN_COMPLEDTE:
                     handleComledte();
@@ -74,7 +87,13 @@ public class News_zx_Fragment extends Fragment {
         }
     };
 
-    public void downData() {
+
+    /**
+     * 如果为true为分页下载
+     * @param path
+     * @param flag
+     */
+    public void downData(final String path, final boolean flag) {
         new Thread() {
             @Override
             public void run() {
@@ -82,12 +101,15 @@ public class News_zx_Fragment extends Fragment {
                 if (HttpUtil.isNetconn(getActivity())) {
                     //有网络开始下载
                     try {
-                        String json = HttpUtil.getString(Url.game_headline_path);
+                        String json = HttpUtil.getString(path);
                         if (!TextUtils.isEmpty(json)) {
-
                             try {
-                                allData = Parse.parseNewsTT(json);
-                                handler.sendEmptyMessage(DOWN_COMPLEDTE);
+                                allData.addAll(Parse.parseNewsTT(json));
+                                if (flag){
+                                    handler.sendEmptyMessage(DOWN_COMPLEDTE_REFRESH);
+                                }else{
+                                    handler.sendEmptyMessage(DOWN_COMPLEDTE);
+                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 handler.sendEmptyMessage(PARSE_JSON_ERROR);
@@ -112,9 +134,10 @@ public class News_zx_Fragment extends Fragment {
             for (int i = 0; i < carouselNum; i++) {
                 carouselData.add(allData.get(i));
             }
+            myListView.setdata(carouselData);
         }
         myListView.setdata(carouselData);
-
+        myAdapter.notifyDataSetChanged();
     }
 
     @Nullable
@@ -122,15 +145,30 @@ public class News_zx_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_news_zx, container, false);
         myListView = ((NewsRefreshListView) rootView.findViewById(R.id.listView));
-        myActivity = getActivity();
-        String []dataTemp = new String[50];
-        for (int i = 0; i < 50; i++) {
-            dataTemp[i]=""+i;
+
+        ListAdapter adapter = myListView.getAdapter();
+        if (adapter == null) {
+            myListView.setAdapter(myAdapter);
+            //初始化回调
+            initListViewListener();
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(myActivity,
-                android.R.layout.simple_spinner_item, dataTemp);
-        myListView.setAdapter(adapter);
+        handleComledte();
         return rootView;
+    }
+
+    private void initListViewListener() {
+        myListView.setOnRefreshListener(new NewsRefreshListView.OnRefreshListener() {
+            @Override
+            public void onPullRefresh() {
+
+                downData( Url.getHeadPagingPath(index++),true);
+            }
+
+            @Override
+            public void onLoadingMore() {
+                downData( Url.getHeadPagingPath(index++),true);
+            }
+        });
     }
 
     @Override
@@ -144,7 +182,10 @@ public class News_zx_Fragment extends Fragment {
         super.onCreate(savedInstanceState);
         allData = new ArrayList<>();
         carouselData = new ArrayList<>();
-        downData();
+        myActivity = getActivity();
+        downData(Url.game_headline_path,false);
+        myAdapter = new News_TT(getContext(),allData);
+
     }
 
 

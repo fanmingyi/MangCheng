@@ -37,7 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:gravity="center"
+
+            android:id="@+id/top"
             android:layout_marginLeft="15dp"
             android:orientation="vertical">
             <TextView android:layout_width="wrap_content"
@@ -55,7 +56,6 @@
         </LinearLayout>
     </LinearLayout>
     <android.support.v4.view.ViewPager
-        android:background="#f0f"
         android:id="@+id/vp_carousel"
         android:layout_width="match_parent"
         android:layout_height="200dp" />

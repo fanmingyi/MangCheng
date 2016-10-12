@@ -1,9 +1,12 @@
 package fmy.qf.com.mancheng.customview;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +30,8 @@ import fmy.qf.com.mancheng.R;
 import fmy.qf.com.mancheng.bean.News_TT_Bean;
 
 public class NewsRefreshListView extends ListView implements OnScrollListener {
+    //此标志为判断是否计算过viewpager的高度
+    boolean flag = false;
 
     private View headerView;//headerView
     private ImageView iv_arrow;
@@ -47,11 +52,30 @@ public class NewsRefreshListView extends ListView implements OnScrollListener {
     private boolean isLoadingMore = false;//当前是否正在处于加载更多
     private ViewPager vpContain;
     private int viewpagerHieght;
+
     //轮播器数据
     private List<News_TT_Bean> carouselData = new ArrayList<>();
     //轮播图片集合
     private List<ImageView> carouselImgs = new ArrayList<>();
+    //Viewpager的适配器
     private Myadapter myadapter;
+
+    private final  int INFINTE = 0;
+
+    public Handler handler = new Handler(){
+
+        @Override
+        public void dispatchMessage(Message msg) {
+            switch (msg.what) {
+                case INFINTE:
+                    vpContain.setCurrentItem(1+vpContain.getCurrentItem());
+                    handler.sendEmptyMessageDelayed(INFINTE,2000);
+                    break;
+
+                default:
+            }
+        }
+    };
 
     //把数据放入轮播器
     public void setdata(List<News_TT_Bean> carouselData) {
@@ -67,8 +91,17 @@ public class NewsRefreshListView extends ListView implements OnScrollListener {
         }
         if (myadapter != null) {
             myadapter.notifyDataSetChanged();
+        }else{
+            myadapter = new Myadapter();
+            vpContain.setAdapter(myadapter);
+            myadapter.notifyDataSetChanged();
+            vpContain.setCurrentItem(10);
+            //开启轮播
+            handler.sendEmptyMessageDelayed(INFINTE,2000);
         }
     }
+
+
 
     public NewsRefreshListView(Context context) {
         super(context);
@@ -87,8 +120,6 @@ public class NewsRefreshListView extends ListView implements OnScrollListener {
         initFooterView();
     }
 
-
-    boolean flag = false;
 
 
 
@@ -122,9 +153,7 @@ public class NewsRefreshListView extends ListView implements OnScrollListener {
         headerViewHeight -= viewpagerHieght;
         headerView.setPadding(0, -headerViewHeight, 0, 0);
         addHeaderView(headerView);
-        myadapter = new Myadapter();
-        vpContain.setAdapter(myadapter);
-        myadapter.notifyDataSetChanged();
+
 
         vpContain.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -135,11 +164,12 @@ public class NewsRefreshListView extends ListView implements OnScrollListener {
                 switch (ev.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         downY = (int) ev.getY();
-
+                        headY = (int) headerView.getY();
 //                Log.e("TAG","按下得到"+downY);
                         break;
                     case MotionEvent.ACTION_MOVE:
 
+                        headY = (int) headerView.getY();
                         if (currentState == REFRESHING) {
                             break;
                         }
@@ -211,24 +241,21 @@ public class NewsRefreshListView extends ListView implements OnScrollListener {
         addFooterView(footerView);
 
     }
-
+    int headY;
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
 
-		/*if (currentState==REFRESHING){
-            return super.onTouchEvent(ev);
-		}*/
+
         if (isLoadingMore) {
             return super.onTouchEvent(ev);
         }
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 downY = (int) ev.getY();
-
-//                Log.e("TAG","按下得到"+downY);
+             headY= (int)headerView.getY();
+                Log.e("fmy","普惠IEhi:"+headY);
                 break;
             case MotionEvent.ACTION_MOVE:
-
                 if (currentState == REFRESHING) {
                     break;
                 }
@@ -236,7 +263,8 @@ public class NewsRefreshListView extends ListView implements OnScrollListener {
                 int deltaY = (int) (ev.getY() - downY);
 //                Log.e("TAG","移动得到"+ev.getY());
                 int paddingTop = -headerViewHeight + deltaY;
-                if (paddingTop > -headerViewHeight && getFirstVisiblePosition() == 0) {
+                if (paddingTop > -headerViewHeight && getFirstVisiblePosition() == 0&&headY==0) {
+
                     headerView.setPadding(0, paddingTop, 0, 0);
 //				Log.e("RefreshListView", "paddingTop: "+paddingTop);
 
@@ -262,7 +290,6 @@ public class NewsRefreshListView extends ListView implements OnScrollListener {
                     headerView.setPadding(0, 0, 0, 0);
                     currentState = REFRESHING;
                     refreshHeaderView();
-
                     if (listener != null) {
                         listener.onPullRefresh();
                     }
@@ -290,7 +317,6 @@ public class NewsRefreshListView extends ListView implements OnScrollListener {
                 iv_arrow.setVisibility(View.INVISIBLE);
                 pb_rotate.setVisibility(View.VISIBLE);
                 tv_state.setText("正在刷新...");
-
                 break;
         }
     }
@@ -363,19 +389,26 @@ public class NewsRefreshListView extends ListView implements OnScrollListener {
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem,
                          int visibleItemCount, int totalItemCount) {
+
+//
     }
 
     class Myadapter extends PagerAdapter {
 
         @Override
         public int getCount() {
-            return carouselImgs.size();
+            if (carouselImgs==null||carouselImgs.size()==0){
+                return 0;
+            }else {
+                return Integer.MAX_VALUE;
+            }
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            container.addView(carouselImgs.get(position));
-            return carouselImgs.get(position);
+           ImageView iv= carouselImgs.get(position%carouselImgs.size());
+            container.addView(iv);
+            return carouselImgs.get(position%carouselImgs.size());
         }
 
         @Override
