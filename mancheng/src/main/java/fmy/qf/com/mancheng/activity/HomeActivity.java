@@ -95,6 +95,13 @@ public class HomeActivity extends AppCompatActivity {
         fragmentTransaction.add(R.id.fl_contain, homeFragment).commit();
         //添加到集合中
         allFragment.add(CURRENT_HOME, homeFragment);
+
+        searchFragment = new SearchFragment();
+        allFragment.add(CURRENT_SERARCH, searchFragment);
+        newsFragment = new NewsFragment();
+        allFragment.add(CURRENT_NEWS, newsFragment);
+        managerFragment = new ManagerFragment();
+        allFragment.add(CURRENT_MANAGER, managerFragment);
     }
 
     private void initRadioGroup() {
@@ -104,33 +111,18 @@ public class HomeActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_home:
-                        if (homeFragment == null) {
-                            homeFragment = new HomeFragment();
-                        }
                         chageFragment(homeFragment, CURRENT_HOME);
                         tvTitle.setText("首页");
                         break;
                     case R.id.rb_search:
-                        if (searchFragment == null) {
-                            searchFragment = new SearchFragment();
-                            allFragment.add(CURRENT_SERARCH, searchFragment);
-                        }
                         chageFragment(searchFragment, CURRENT_SERARCH);
                         tvTitle.setText("搜索");
                         break;
                     case R.id.rb_news:
-                        if (newsFragment == null) {
-                            newsFragment = new NewsFragment();
-                            allFragment.add(CURRENT_NEWS, newsFragment);
-                        }
                         chageFragment(newsFragment, CURRENT_NEWS);
                         tvTitle.setText("资讯");
                         break;
                     case R.id.rb_manager:
-                        if (managerFragment == null) {
-                            managerFragment = new ManagerFragment();
-                            allFragment.add(CURRENT_MANAGER, newsFragment);
-                        }
                         chageFragment(managerFragment, CURRENT_MANAGER);
                         tvTitle.setText("管理");
                         break;
@@ -145,8 +137,6 @@ public class HomeActivity extends AppCompatActivity {
      * 需要切换的fragment
      */
     public void chageFragment(Fragment fragment, int currentSate) {
-
-
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
         Fragment fragment2 = allFragment.get(currentFragment);
         fragmentTransaction.hide(fragment2);
@@ -154,7 +144,6 @@ public class HomeActivity extends AppCompatActivity {
             Fragment fragment1 = allFragment.get(currentSate);
             fragmentTransaction.show(fragment1);
         } else {
-
             fragmentTransaction.add(R.id.fl_contain, fragment);
         }
         currentFragment = currentSate;

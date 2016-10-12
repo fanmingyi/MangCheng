@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--第一个选项框-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/manager_shape"
+    android:orientation="vertical">
+
+    <fmy.qf.com.mancheng.customview.manager_item
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:myText="漫画收藏" />
+
+    <fmy.qf.com.mancheng.customview.manager_item
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:myText="漫画浏览历史" />
+
+    <fmy.qf.com.mancheng.customview.manager_item
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:myText="段子收藏" />
+
+    <fmy.qf.com.mancheng.customview.manager_item
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:drawUnderLine="false"
+        app:myText="动漫收藏" />
+</LinearLayout>

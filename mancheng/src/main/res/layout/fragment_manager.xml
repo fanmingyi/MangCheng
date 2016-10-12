@@ -1,9 +1,37 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="fmy.qf.com.mancheng.fragment.ManagerFragment">
-
-
+    <!--根布局-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingRight="15dp"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="15dp">
+        <!--第一个展示框-->
+        <include
+            android:id="@+id/include_sho1"
+            layout="@layout/manager_show1" />
+        <!--第二个展示框-->
+        <include
+            android:id="@+id/include_sho2"
+            layout="@layout/manager_show2" />
+        <!--第三个展示框-->
+        <include
+            android:id="@+id/include_sho3"
+            layout="@layout/manager_show3" />
+        <!--第四个展示框-->
+        <include
+            android:id="@+id/include_sho4"
+            layout="@layout/manager_show4" />
+        <!--第五个展示框-->
+        <include
+            android:id="@+id/include_sho5"
+            layout="@layout/manager_show5" />
+    </LinearLayout>
 
 </FrameLayout>
