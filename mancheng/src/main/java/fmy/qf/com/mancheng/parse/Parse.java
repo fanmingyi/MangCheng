@@ -6,6 +6,7 @@ import java.util.List;
 
 import fmy.qf.com.mancheng.bean.Home_BoutiqueBean;
 import fmy.qf.com.mancheng.bean.Home_RandingBean;
+import fmy.qf.com.mancheng.bean.News_TT_Bean;
 import fmy.qf.com.mancheng.bean.Search_AllSeekBean;
 import fmy.qf.com.mancheng.bean.Search_TagBean;
 
@@ -47,6 +48,14 @@ public class Parse {
      */
     public static  List<Search_TagBean> parseSearchHotTag(String json) throws Exception{
         List<Search_TagBean> home_randingBeen = JSON.parseArray(json, Search_TagBean.class);
+        return home_randingBeen;
+    }
+
+    /**
+     * 解析资讯界面的头条
+     */
+    public static  List<News_TT_Bean> parseNewsTT(String json) throws Exception{
+        List<News_TT_Bean> home_randingBeen = JSON.parseArray(json, News_TT_Bean.class);
         return home_randingBeen;
     }
 }

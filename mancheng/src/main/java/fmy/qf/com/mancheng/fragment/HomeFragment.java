@@ -33,7 +33,6 @@ public class HomeFragment extends Fragment {
     private int currentFragment = JPFRAGMENT;
     private final static int JPFRAGMENT = 0;
     private final static int PHFRAGMENT = JPFRAGMENT + 1;
-
     public HomeFragment() {
 
     }
@@ -45,8 +44,6 @@ public class HomeFragment extends Fragment {
         boutiqueFragment = new HomeBoutiqueFragment();
         rankingFragment = new HomeRankingFragment();
         allFragment.add(boutiqueFragment);
-
-
         allFragment.add(rankingFragment);
     }
 
@@ -61,13 +58,14 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
+
+
     private void initFindView() {
         vpContain = ((ViewPager) rootView.findViewById(R.id.vp_contain));
         tvJP = ((TextView) rootView.findViewById(R.id.tv_jp));
         tvPH = ((TextView) rootView.findViewById(R.id.tv_ph));
         vUnderLine = rootView.findViewById(R.id.v_underLine);
         initTitleClick();
-
     }
 
     /**
@@ -131,12 +129,7 @@ public class HomeFragment extends Fragment {
                     tvPH.setTextColor(Color.GREEN);
                 }
 
-//                Constant.mType = SwitchAnimationUtil.AnimationType.ROTATE;
-//                new SwitchAnimationUtil().startAnimation(allFragment.get(position).getView(), Constant.mType);
 
-                //-------
-//                if (position ==0)
-//                boutiqueFragment.setZero();
             }
 
             @Override

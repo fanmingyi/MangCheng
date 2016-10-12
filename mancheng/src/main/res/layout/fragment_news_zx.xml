@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     tools:context="fmy.qf.com.mancheng.fragment.News_zx_Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+  <fmy.qf.com.mancheng.customview.NewsRefreshListView
+      android:id="@+id/listView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"/>
 
 </FrameLayout>

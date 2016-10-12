@@ -68,7 +68,7 @@
                 android:button="@null"
                 android:drawableTop="@drawable/news_selector"
                 android:gravity="center"
-                android:text="咨询" />
+                android:text="资讯" />
 
             <RadioButton
                 android:id="@+id/rb_manager"
