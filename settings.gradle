@@ -1,1 +1,1 @@
-include ':app', ':mancheng'
+include ':mancheng'
