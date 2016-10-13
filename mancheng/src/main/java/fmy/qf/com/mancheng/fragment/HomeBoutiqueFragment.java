@@ -275,12 +275,7 @@ public class HomeBoutiqueFragment extends Fragment {
 
         scrollView = ((ScrollView) mConverView.findViewById(R.id.scrollView));
 
-        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
-            }
-        });
 
         return mConverView;
     }

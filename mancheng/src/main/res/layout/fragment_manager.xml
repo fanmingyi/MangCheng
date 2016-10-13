@@ -22,6 +22,7 @@
             layout="@layout/manager_show2" />
         <!--第三个展示框-->
         <include
+
             android:id="@+id/include_sho3"
             layout="@layout/manager_show3" />
         <!--第四个展示框-->

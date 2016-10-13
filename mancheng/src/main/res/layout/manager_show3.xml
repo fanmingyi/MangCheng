@@ -10,9 +10,10 @@
     android:orientation="vertical">
 
     <fmy.qf.com.mancheng.customview.manager_item
+        android:id="@+id/location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:myText="全国漫展" />
+        app:myText="百度定位" />
 
     <fmy.qf.com.mancheng.customview.manager_item
         android:layout_width="match_parent"
