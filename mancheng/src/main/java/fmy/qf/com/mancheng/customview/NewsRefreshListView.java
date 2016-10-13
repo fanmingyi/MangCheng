@@ -6,7 +6,6 @@ import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -253,7 +252,7 @@ public class NewsRefreshListView extends ListView implements OnScrollListener {
             case MotionEvent.ACTION_DOWN:
                 downY = (int) ev.getY();
              headY= (int)headerView.getY();
-                Log.e("fmy","普惠IEhi:"+headY);
+
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (currentState == REFRESHING) {
