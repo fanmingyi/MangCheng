@@ -1,19 +1,23 @@
 package fmy.qf.com.mancheng.activity;
 
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,9 +34,10 @@ import fmy.qf.com.mancheng.fragment.HomeFragment;
 import fmy.qf.com.mancheng.fragment.ManagerFragment;
 import fmy.qf.com.mancheng.fragment.NewsFragment;
 import fmy.qf.com.mancheng.fragment.SearchFragment;
+import fmy.qf.com.mancheng.util.AnimUtil;
 import pl.droidsonroids.gif.GifDrawable;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     //用于记录拖拽机器人偏移点
     float rowX;
@@ -72,6 +77,11 @@ public class HomeActivity extends AppCompatActivity {
     private GifDrawable anzhaiNomo;
     private SwitchAnimationUtil mSwitchAnimationUtil;
     private TextView tvTitle;
+    private RelativeLayout level3;
+    private RelativeLayout level2;
+    private RelativeLayout level1;
+    private ImageView iv_menu;
+    private ImageView iv_home;
 
 
     @Override
@@ -84,10 +94,70 @@ public class HomeActivity extends AppCompatActivity {
         allFragment = new ArrayList<Fragment>(4);
         //初始化第一个fragment 即homefragment
         initFragment();
-
-
+        iv_home = (ImageView) findViewById(R.id.iv_home);
+        iv_menu = (ImageView) findViewById(R.id.iv_menu);
+        level1 = (RelativeLayout) findViewById(R.id.level1);
+        level2 = (RelativeLayout) findViewById(R.id.level2);
+        level3 = (RelativeLayout) findViewById(R.id.level3);
+        iv_home.setOnClickListener(this);
+        iv_menu.setOnClickListener(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("按下菜单键关闭/开启半圆导航菜单");
+        builder.setPositiveButton("知道了,现在关闭它", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                     onKeyDown(KeyEvent.KEYCODE_MENU,null);
+            }
+        });
+        builder.show();
     }
+    private boolean isShowLevel2 = true;//是否显示2级菜单
+    private boolean isShowLevel3 = true;//是否显示3级菜单
 
+    private boolean isShowMenu = true;//是否显示整个菜单，包括1级，2级，3级的菜单
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_home:
+                if(AnimUtil.animCount!=0){
+                    //说明有动画在执行
+                    return;
+                }
+                if(isShowLevel2){
+                    //需要隐藏
+                    int startOffset = 0;
+                    if(isShowLevel3){
+                        AnimUtil.closeMenu(level3,startOffset);
+                        startOffset += 200;
+                        isShowLevel3 = false;
+                    }
+
+                    AnimUtil.closeMenu(level2,startOffset);
+                }else{
+                    //需要显示
+//				Log.e(tag, "执行显示操作");
+                    AnimUtil.showMenu(level2,0);
+                }
+                isShowLevel2 = !isShowLevel2;
+                break;
+            case R.id.iv_menu:
+                if(AnimUtil.animCount!=0){
+                    //说明有动画在执行
+                    return;
+                }
+                if(isShowLevel3){
+                    //隐藏3级菜单
+                    AnimUtil.closeMenu(level3,0);
+                }else {
+                    //显示3级菜单
+                    AnimUtil.showMenu(level3,0);
+                }
+                isShowLevel3 = !isShowLevel3;
+                break;
+            default:
+                break;
+        }
+    }
     //初始化第一个fragment 即homefragment
     private void initFragment() {
         homeFragment = new HomeFragment();
@@ -282,7 +352,37 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             }
         }
+        if(keyCode==KeyEvent.KEYCODE_MENU){
 
+            if(isShowMenu){
+                //需要关闭所有菜单
+                int startOffset = 0;
+                if(isShowLevel3){
+                    AnimUtil.closeMenu(level3, startOffset);
+                    isShowLevel3 = false;
+                    startOffset += 200;
+                }
+                if(isShowLevel2){
+                    AnimUtil.closeMenu(level2, startOffset);
+                    isShowLevel2 = false;
+                    startOffset += 200;
+                }
+
+                AnimUtil.closeMenu(level1, startOffset);
+
+            }else {
+                //需要显示所有菜单
+                AnimUtil.showMenu(level1,0);
+                AnimUtil.showMenu(level2,200);
+                isShowLevel2 = true;
+                AnimUtil.showMenu(level3,400);
+                isShowLevel3 = true;
+
+            }
+            isShowMenu = !isShowMenu;
+
+            return true;
+        }
         return super.onKeyDown(keyCode, event);
     }
 
