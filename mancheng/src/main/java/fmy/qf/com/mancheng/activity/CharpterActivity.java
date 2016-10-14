@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -92,6 +94,15 @@ public class CharpterActivity extends AppCompatActivity {
         lvCatalogue = ((ListView) findViewById(R.id.lv_catalogue));
         charpter = new Charpter(this, bean);
         lvCatalogue.setAdapter(charpter);
+        lvCatalogue.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(CharpterActivity.this, ShowActivity.class);
+                intent.putExtra("id",bean.getId()+"");
+                intent.putExtra("number",bean.getChapter().get(position).getNumber()+"");
+                CharpterActivity.this.startActivity(intent);
+            }
+        });
     }
 
     private void initData() {
@@ -155,5 +166,12 @@ public class CharpterActivity extends AppCompatActivity {
                 }
             }
         }.start();
+    }
+
+    public void startRead(View view) {
+        Intent intent = new Intent(CharpterActivity.this, ShowActivity.class);
+        intent.putExtra("id",bean.getId()+"");
+        intent.putExtra("number",bean.getChapter().get(0).getNumber()+"");
+        CharpterActivity.this.startActivity(intent);
     }
 }

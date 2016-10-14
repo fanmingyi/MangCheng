@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 
 import java.util.List;
 
+import fmy.qf.com.mancheng.adpter.ShowBean;
 import fmy.qf.com.mancheng.bean.Home_BoutiqueBean;
 import fmy.qf.com.mancheng.bean.Home_RandingBean;
 import fmy.qf.com.mancheng.bean.News_TT_Bean;
@@ -66,5 +67,11 @@ public class Parse {
      */
     public static CharpterBean parseChapterBean(String json) throws Exception{
        return JSON.parseObject(json,CharpterBean.class);
+    }
+    /**
+     * 解析漫画展示
+     */
+    public static List<ShowBean> parseShowBean(String json) throws Exception{
+        return JSON.parseArray(json,ShowBean.class);
     }
 }

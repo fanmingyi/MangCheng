@@ -36,7 +36,7 @@ public class LocationActivity extends AppCompatActivity {
         mapView = ((MapView) findViewById(R.id.mapView));
         mLocationClient.registerLocationListener(myListener);    //注册监听函数
         mBaiduMap = mapView.getMap();
-        MapStatusUpdate  mapStatusUpdate2 = MapStatusUpdateFactory.zoomBy(7f);
+        MapStatusUpdate  mapStatusUpdate2 = MapStatusUpdateFactory.zoomBy(8f);
         mBaiduMap.setMapStatus(mapStatusUpdate2);
     }
 
