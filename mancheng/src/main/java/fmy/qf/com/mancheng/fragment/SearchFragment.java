@@ -2,6 +2,7 @@ package fmy.qf.com.mancheng.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fmy.qf.com.mancheng.R;
+import fmy.qf.com.mancheng.activity.CharpterActivity;
+import fmy.qf.com.mancheng.activity.SearchResultActivity;
 import fmy.qf.com.mancheng.bean.Search_AllSeekBean;
 import fmy.qf.com.mancheng.bean.Search_TagBean;
 import fmy.qf.com.mancheng.parse.Parse;
@@ -118,11 +122,20 @@ public class SearchFragment extends Fragment {
             for (int i = 0; i < tagSet.size(); i++) {
                 Search_TagBean search_tagBean = tagSet.get(i);
                 if (search_tagBean != null) {
+
                     hotTagTextSet.add(search_tagBean.getName());
                 }
             }
             hotTagAdapter = new ArrayAdapter<String>(myActivity, R.layout.search_hottag_item, hotTagTextSet);
             gvTab.setAdapter(hotTagAdapter);
+            gvTab.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    etSearch.setText(hotTagTextSet.get(position));
+                    btnSubmit.performClick();
+
+                }
+            });
         }
 
     }
@@ -130,9 +143,20 @@ public class SearchFragment extends Fragment {
 
     private void hadnlerComplete() {
         for (int i = 0; i < ivShowSet.size(); i++) {
+
             Search_AllSeekBean bean = allSeeData.get(i);
             Picasso.with(myActivity).load(bean.getIcon()).into(ivShowSet.get(i));
             tvShowSet.get(i).setText(bean.getName());
+            final int finalI = i;
+            ivShowSet.get(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String id = allSeeData.get(finalI).getId();
+                    Intent intent = new Intent(myActivity, CharpterActivity.class);
+                    intent.putExtra("id",Integer.parseInt(id));
+                    startActivity(intent);
+                }
+            });
         }
     }
 
@@ -225,7 +249,11 @@ public class SearchFragment extends Fragment {
         tvShowSet.add(tvShow1);
         tvShowSet.add(tvShow2);
         tvShowSet.add(tvShow3);
+        initBtnListener();
+        InitNewImgListener();
     }
+
+
 
     /**
      * 初始化查找按钮
@@ -234,7 +262,14 @@ public class SearchFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String keyString = etSearch.getText().toString();
+                if (TextUtils.isEmpty(keyString)){
+                    Toast.makeText(myActivity, "不能为空", Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent intent = new Intent(myActivity, SearchResultActivity.class);
+                    intent.putExtra("key",keyString);
+                    myActivity.startActivity(intent);
+                }
             }
         });
     }
@@ -246,7 +281,8 @@ public class SearchFragment extends Fragment {
         newImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//                downLoadAllSeeData(Url.SOFT_GRIDVIEW, true);
+                downLoadAllSeeData(Url.getSeekSearch(allBeanPager++, allBeanLimit), false);
             }
         });
     }
