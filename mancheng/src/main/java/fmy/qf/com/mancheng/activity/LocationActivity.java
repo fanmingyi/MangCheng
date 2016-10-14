@@ -38,7 +38,6 @@ public class LocationActivity extends AppCompatActivity {
         mLocationClient.registerLocationListener(myListener);    //注册监听函数
         mBaiduMap = mapView.getMap();
         MapStatusUpdate  mapStatusUpdate2 = MapStatusUpdateFactory.zoomBy(7f);
-
         mBaiduMap.setMapStatus(mapStatusUpdate2);
     }
 
@@ -59,6 +58,7 @@ public class LocationActivity extends AppCompatActivity {
                 LatLng latLng = new LatLng(latitude,longitude);
                 MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newLatLng(latLng);
                 mBaiduMap.animateMapStatus(mapStatusUpdate);
+                mBaiduMap.clear();
                 BitmapDescriptor bitmapDescriptor =null;
                 Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.huaji);
                 bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmap);
@@ -89,5 +89,9 @@ public class LocationActivity extends AppCompatActivity {
         mLocationClient.start();
     }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mLocationClient.stop();
+    }
 }
