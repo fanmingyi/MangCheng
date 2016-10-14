@@ -2,6 +2,7 @@ package fmy.qf.com.mancheng.fragment;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fmy.qf.com.mancheng.R;
+import fmy.qf.com.mancheng.activity.CharpterActivity;
 import fmy.qf.com.mancheng.adpter.Home_Boutique_JP;
 import fmy.qf.com.mancheng.adpter.Home_Boutique_JPBottom;
 import fmy.qf.com.mancheng.bean.Home_BoutiqueBean;
@@ -145,6 +147,7 @@ public class HomeBoutiqueFragment extends Fragment {
     private List<Home_BoutiqueBean.ClassificationBean> classificationBean;
     private Home_Boutique_JPBottom gridBottomAdapter;
     private ScrollView scrollView;
+    private int reality;
 
     /**
      * 处理下载完成后处理轮播器的逻辑代码
@@ -161,18 +164,17 @@ public class HomeBoutiqueFragment extends Fragment {
 
                 vpCarousel.setAdapter(myViewPagerAdapter);
                 int midlle = Integer.MAX_VALUE / 2;
-                int size = carouseImgSet.size();
+                int size = reality;
 
                 vpCarousel.setCurrentItem(1000 - 1000 % size, false);
                 handler.sendEmptyMessageDelayed(CAROUSEL_AUTO, 2000);
-                dotSet = new ArrayList<ImageView>(size);
+                dotSet = new ArrayList<ImageView>();
                 dot_normal = BitmapFactory.decodeResource(getResources(), R.mipmap.dot_normal);
                 dot_enable = BitmapFactory.decodeResource(getResources(), R.mipmap.dot_enable);
 
                 // 初始化轮播器dot
                 for (int i = 0; i < size; i++) {
                     ImageView dot = new ImageView(myActivity);
-
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     dot.setImageBitmap(dot_normal);
                     dot.setLayoutParams(params);
@@ -196,7 +198,7 @@ public class HomeBoutiqueFragment extends Fragment {
                         flagAnimation = true;
 
                         //顶部灰色dot 和文字设定
-                        int index = position % carouselSet.size();
+                        int index = position % reality;
                         if (dotSet != null && dotSet.size() > 0) {
                             dotSet.get(current).setImageBitmap(dot_normal);
                             current = index;
@@ -330,9 +332,21 @@ public class HomeBoutiqueFragment extends Fragment {
     class MyViewPagerAdapter extends PagerAdapter {
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
+        public Object instantiateItem(ViewGroup container, final int position) {
             ImageView iv = carouseImgSet.get(position % carouseImgSet.size());
             container.addView(iv);
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Home_BoutiqueBean.CarouselFigureBean carouselFigureBean = carouselSet.get(position % reality);
+                    String id = carouselFigureBean.getId();
+                    if (!TextUtils.isEmpty(id)){
+                        Intent intent = new Intent(myActivity, CharpterActivity.class);
+                        intent.putExtra("id",Integer.parseInt(id));
+                        myActivity.startActivity(intent);
+                    }
+                }
+            });
             return iv;
         }
 
@@ -363,12 +377,33 @@ public class HomeBoutiqueFragment extends Fragment {
         carouselSet = bean.getCarousel_figure();
         carouseImgSet = new ArrayList<ImageView>();
         for (int i = 0; i < carouselSet.size(); i++) {
+            String name = carouselSet.get(i).getName();
+            String introduction = carouselSet.get(i).getIntroduction();
+            if (TextUtils.isEmpty(name)||TextUtils.isEmpty(introduction)) {
+                continue;
+            }
             ImageView imageView = new ImageView(myActivity);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.anzai));
             Picasso.with(myActivity).load(carouselSet.get(i).getCover()).into(imageView);
             carouseImgSet.add(imageView);
         }
+        reality = carouseImgSet.size();
+        if (carouseImgSet.size()<=3){
+            for (int i = 0; i < 4; i++) {
+                String name = carouselSet.get(i).getName();
+                String introduction = carouselSet.get(i).getIntroduction();
+                if (TextUtils.isEmpty(name)||TextUtils.isEmpty(introduction)) {
+                    continue;
+                }
+                ImageView imageView = new ImageView(myActivity);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.anzai));
+                Picasso.with(myActivity).load(carouselSet.get(i).getCover()).into(imageView);
+                carouseImgSet.add(imageView);
+            }
+        }
+
         //中部图片展示
         recommendDate = bean.getBoutiques().getBoutique();
         recommendAdpter = new Home_Boutique_JP(myActivity, recommendDate);

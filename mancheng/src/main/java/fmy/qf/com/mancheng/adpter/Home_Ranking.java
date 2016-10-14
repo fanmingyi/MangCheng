@@ -1,6 +1,7 @@
 package fmy.qf.com.mancheng.adpter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fmy.qf.com.mancheng.R;
+import fmy.qf.com.mancheng.activity.CharpterActivity;
 import fmy.qf.com.mancheng.bean.Home_RandingBean;
 
 /**
@@ -61,7 +63,7 @@ public class Home_Ranking extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHold hold;
-        Home_RandingBean bean = data.get(position);
+        final Home_RandingBean bean = data.get(position);
         if (convertView == null) {
             hold = new ViewHold();
             convertView = LayoutInflater.from(context).inflate(R.layout.home_ph_item, parent, false);
@@ -71,6 +73,14 @@ public class Home_Ranking extends BaseAdapter {
             hold.tv_title = (TextView) convertView.findViewById(R.id.tv_title);
             hold.tv_state = (TextView) convertView.findViewById(R.id.tv_state);
             hold.tv_ranking = (TextView) convertView.findViewById(R.id.tv_ranking);
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, CharpterActivity.class);
+                    intent.putExtra("id",Integer.parseInt(bean.getId()));
+                    context.startActivity(intent);
+                }
+            });
         } else {
             hold = (ViewHold) convertView.getTag();
         }

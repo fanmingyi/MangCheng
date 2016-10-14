@@ -9,6 +9,7 @@ import fmy.qf.com.mancheng.bean.Home_RandingBean;
 import fmy.qf.com.mancheng.bean.News_TT_Bean;
 import fmy.qf.com.mancheng.bean.Search_AllSeekBean;
 import fmy.qf.com.mancheng.bean.Search_TagBean;
+import fmy.qf.com.mancheng.bean.CharpterBean;
 
 /**
  * Created by Administrator on 2016/10/9.
@@ -57,5 +58,13 @@ public class Parse {
     public static  List<News_TT_Bean> parseNewsTT(String json) throws Exception{
         List<News_TT_Bean> home_randingBeen = JSON.parseArray(json, News_TT_Bean.class);
         return home_randingBeen;
+    }
+
+
+    /**
+     * 解析漫画章节
+     */
+    public static CharpterBean parseChapterBean(String json) throws Exception{
+       return JSON.parseObject(json,CharpterBean.class);
     }
 }

@@ -33,7 +33,6 @@ public class LocationActivity extends AppCompatActivity {
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_location);
         mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
-
         mapView = ((MapView) findViewById(R.id.mapView));
         mLocationClient.registerLocationListener(myListener);    //注册监听函数
         mBaiduMap = mapView.getMap();
@@ -53,9 +52,11 @@ public class LocationActivity extends AppCompatActivity {
         public void onReceiveLocation(BDLocation location) {
 
             if (null!= location) {
+
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
                 LatLng latLng = new LatLng(latitude,longitude);
+
                 MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newLatLng(latLng);
                 mBaiduMap.animateMapStatus(mapStatusUpdate);
                 mBaiduMap.clear();
@@ -64,7 +65,7 @@ public class LocationActivity extends AppCompatActivity {
                 bitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmap);
                 OverlayOptions options = new MarkerOptions().position(latLng).icon(bitmapDescriptor);
                 mBaiduMap.addOverlay(options);
-                mBaiduMap.hideInfoWindow();
+//                mBaiduMap.hideInfoWindow();
 
 
             }

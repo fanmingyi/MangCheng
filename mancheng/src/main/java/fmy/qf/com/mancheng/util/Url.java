@@ -143,4 +143,10 @@ public class Url {
 
     public static final String BOOK_DAIL_URL = "http://a121.baopiqi.com/api/mh/getCartoonInfo.php?&appname=%E7%88%B1%E6%83%85%E6%BC%AB%E7%94%BB%E7%B2%BE%E9%80%89&pkgname=com.platform.cartoonl&imei=863191020203140&versionname=1.2.7&id=";
     public static final String CHAPTER_DAIL_URL = "http://a121.baopiqi.com/api/mh/getCartoonChapter.php?";
+
+    static public String getChapter(int id){
+
+        return "http://a121.baopiqi.com/api/mh/getCartoonInfo.php?&appname=%E7%88%B1%E6%83%85%E6%BC%AB%E7%94%BB%E7%B2%BE%E9%80%89&pkgname=com.platform.cartoonl&imei=863191020203140&versionname=1.2.7&id="+id;
+    }
+
 }

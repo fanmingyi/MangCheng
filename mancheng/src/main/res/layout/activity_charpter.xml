@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,48 +11,163 @@
 
 
     <LinearLayout
-        android:background="#F1F"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="3">
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent" />
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="match_parent">
+        android:layout_weight="3"
+
+        android:orientation="horizontal">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/iv_show"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/bottombar_game_normal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="标题"
+                app:layout_constraintLeft_toRightOf="@+id/iv_show"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/tv_author"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="作者"
+                app:layout_constraintLeft_toRightOf="@+id/iv_show"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+
             <TextView
                 android:id="@+id/tv_state"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="状态:"
+                app:layout_constraintLeft_toRightOf="@+id/iv_show"
+                app:layout_constraintTop_toBottomOf="@+id/tv_author" />
+
+            <Button
+                android:id="@+id/btn_read"
+                android:layout_width="88dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#ff0"
+                android:text="开始阅读"
+                app:layout_constraintLeft_toRightOf="@+id/iv_show"
+                app:layout_constraintTop_toBottomOf="@+id/tv_state" />
+
+            <Button
+                android:id="@+id/btn_colect"
+                android:layout_width="88dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:background="#0f0"
+                android:text="收藏"
+                app:layout_constraintBaseline_toBaselineOf="@+id/btn_read"
+                app:layout_constraintLeft_toRightOf="@+id/btn_read" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#6000" />
+
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#6000"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <!--简介-->
+        <TextView
+            android:maxLines="2"
+            android:id="@+id/tv_suammary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="摘要"
+            android:textColor="#000"
+            android:textSize="10sp"
+            android:ellipsize="end"
+
+            />
+
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_below="@id/tv_suammary"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/icon_comic_detail_disvisible" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#6000" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#ff0"
-        android:layout_weight="1"></RelativeLayout>
-    <RelativeLayout
+        android:layout_weight="1"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="目录"
+            android:textColor="#000"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/icon_comic_rank" />
+    </RelativeLayout>
+
+    <View
+
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#f0f"
-        android:layout_weight="1"></RelativeLayout>
+        android:layout_height="1dp"
+        android:background="#6000" />
+
     <ListView
+        android:layout_marginTop="3dp"
+        android:id="@+id/lv_catalogue"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
-        android:background="#f00"
-        ></ListView>
+        android:layout_weight="4" />
 </LinearLayout>

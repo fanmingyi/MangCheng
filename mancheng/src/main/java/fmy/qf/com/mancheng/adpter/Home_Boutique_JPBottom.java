@@ -1,6 +1,7 @@
 package fmy.qf.com.mancheng.adpter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import fmy.qf.com.mancheng.R;
+import fmy.qf.com.mancheng.activity.CharpterActivity;
 import fmy.qf.com.mancheng.bean.Home_BoutiqueBean;
 import fmy.qf.com.mancheng.customview.CircleImageView;
 
@@ -55,14 +57,21 @@ public class Home_Boutique_JPBottom extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolod hold ;
-        Home_BoutiqueBean.ClassificationBean baseBean = beanSet.get(position);
+        final Home_BoutiqueBean.ClassificationBean baseBean = beanSet.get(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.home_jp_gridview_bottomitem,parent,false);
             hold = new ViewHolod();
             hold.ivShow=((CircleImageView) convertView.findViewById(R.id.iv_show));
             hold.tv_js = ((TextView) convertView.findViewById(R.id.tv_js));
             convertView.setTag(hold);
-
+            hold.ivShow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, CharpterActivity.class);
+                    intent.putExtra("id",Integer.parseInt(baseBean.getId()));
+                    context.startActivity(intent);
+                }
+            });
         }else{
             hold = (ViewHolod) convertView.getTag();
         }

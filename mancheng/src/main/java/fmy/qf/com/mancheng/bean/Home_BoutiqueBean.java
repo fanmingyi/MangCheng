@@ -174,6 +174,8 @@ public class Home_BoutiqueBean {
         public void setState(String state) {
             this.state = state;
         }
+
+
     }
 
     public static class BoutiquesBean {
